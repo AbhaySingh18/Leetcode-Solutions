@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool dfs(int src,vector<int>& mark,vector<vector<int>>& graph,int col)
+    {
+        mark[src]=col;
+        for(int child:graph[src])
+        {
+            if(mark[child]==-1)
+            {
+                if(dfs(child,mark,graph,1-col)==false)
+                    return false;
+            }
+            else{
+                 if(mark[child]==mark[src])
+                     return false;
+            }
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        
+        int n=graph.size();
+        vector<int> mark(n,-1);
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            if(mark[i]==-1)
+            {
+                if(dfs(i,mark,graph,0)==false)  
+                    return false;
+            }
+        }        
+        return true;
+    }
+};
