@@ -1,0 +1,51 @@
+class Solution {
+public:
+    void dfs(int i,int j,int &m,int &n,vector<vector<int>> &g,queue<vector<int>> &q){
+        if(i<0||j<0||i>=m||j>=n||g[i][j]==0||g[i][j]==-1)return;
+        q.push({i,j});
+        g[i][j] = -1;
+        dfs(i+1,j,m,n,g,q);
+        dfs(i,j+1,m,n,g,q);
+        dfs(i-1,j,m,n,g,q);
+        dfs(i,j-1,m,n,g,q);
+    }
+    int shortestBridge(vector<vector<int>>& grid) {
+        int i,j,m=grid.size(),n=grid[0].size();
+        for(i = 0; i < m; i++){
+            for(j = 0; j < n; j++){
+                if(grid[i][j])break;
+            }
+            if(j<n)break;
+        }
+        queue<vector<int>> q;
+        dfs(i,j,m,n,grid,q);
+        int k,x=0;
+        vector<int> tmp;
+        while(!q.empty()){//bfs
+            k = q.size();
+            while(k--){
+                tmp = q.front();
+                q.pop();
+                if(tmp[0]-1 >= 0 && grid[tmp[0]-1][tmp[1]] != -1){
+                    if(grid[tmp[0]-1][tmp[1]] == 1)return x;
+                    grid[tmp[0]-1][tmp[1]] = -1;
+                    q.push({tmp[0]-1,tmp[1]});
+                }if(tmp[0]+1 < m && grid[tmp[0]+1][tmp[1]] != -1){
+                    if(grid[tmp[0]+1][tmp[1]] == 1)return x;
+                    grid[tmp[0]+1][tmp[1]] = -1;
+                    q.push({tmp[0]+1,tmp[1]});
+                }if(tmp[1]-1 >= 0 && grid[tmp[0]][tmp[1]-1] != -1){
+                    if(grid[tmp[0]][tmp[1]-1] == 1)return x;
+                    grid[tmp[0]][tmp[1]-1] = -1;
+                    q.push({tmp[0],tmp[1]-1});
+                }if(tmp[1]+1 < n && grid[tmp[0]][tmp[1]+1] != -1){
+                    if(grid[tmp[0]][tmp[1]+1] == 1)return x;
+                    grid[tmp[0]][tmp[1]+1] = -1;
+                    q.push({tmp[0],tmp[1]+1});
+                }
+            }
+            x++;
+        }
+        return x-2;
+    }
+};
