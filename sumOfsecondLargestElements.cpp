@@ -29,8 +29,8 @@ int main(){
     if(n<4)
         cout<<"Not Possible";
     else{
-        int oddSecondLargest=helper(nums,0);
-        int evenSecondLargest=helper(nums,1);
+        int oddSecondLargest=helper(nums,1);
+        int evenSecondLargest=helper(nums,0);
         cout<<"Sum is equal to: "<<oddSecondLargest+evenSecondLargest;
     }
 }
